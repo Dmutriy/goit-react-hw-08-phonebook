@@ -1,7 +1,8 @@
 //Redux-toolkit
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/contacts/selectors';
-import { addContact } from '../../redux/contacts/contactsSlice';
+// import { addContact } from '../../redux/contacts/contactsSlice';
+import { addContact } from '../../redux/operations';
 //Formik
 import { Formik } from 'formik';
 //@mui/material/Button
@@ -26,7 +27,7 @@ const schema = yup.object().shape({
       nameValidate,
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     ),
-  number: yup
+  phone: yup
     .string()
     .required()
     .min(6)
@@ -39,7 +40,7 @@ const schema = yup.object().shape({
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 const ContactForm = () => {
@@ -70,8 +71,8 @@ const ContactForm = () => {
         </Label>
         <Label>
           Number
-          <Input type="tel" name="number"></Input>
-          <ErrorText component="div" name="number" />
+          <Input type="tel" name="phone"></Input>
+          <ErrorText component="div" name="phone" />
         </Label>
         <Button variant="contained" type="submit">
           Add contact
