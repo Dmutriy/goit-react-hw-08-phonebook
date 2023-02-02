@@ -8,7 +8,7 @@ export const Header = styled.header`
   background-size: 200px 140px;
   background-repeat: no-repeat;
   background-position: center;
-  color: aqua;
+  /* color: aqua; */
 `;
 
 export const Container = styled.div`
