@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
-axios.defaults.baseURL = 'https://63cda2c7fba6420d4d72803f.mockapi.io';
+// axios.defaults.baseURL = 'https://63cda2c7fba6420d4d72803f.mockapi.io';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -17,11 +18,13 @@ export const fetchContacts = createAsyncThunk(
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async ({ name, phone }, thunkAPI) => {
+  async ({ name, number }, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts', { name, phone });
+      const response = await axios.post('/contacts', { name, number });
+
       return response.data;
     } catch (e) {
+      toast.error('Something went wrong. Please try again.');
       return thunkAPI.rejectWithValue(e.message);
     }
   }
@@ -32,7 +35,6 @@ export const deleteContact = createAsyncThunk(
   async (contactId, thunkAPI) => {
     try {
       const response = await axios.delete(`/contacts/${contactId}`);
-      console.log('lol deleteContact');
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
