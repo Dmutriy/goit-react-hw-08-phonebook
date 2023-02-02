@@ -1,20 +1,26 @@
+import { Label } from './Filter.styled';
 import { useDispatch } from 'react-redux';
 import { filterChange } from '../../redux/filters/filtersSlice';
-
-import { Label, FindInput } from './Filter.styled';
 import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
 
-const Filter = () => {
-  const dispach = useDispatch();
-  const filterContact = e => {
-    dispach(filterChange(e.currentTarget.value));
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const onWrite = e => {
+    dispatch(filterChange(e.currentTarget.value));
   };
 
   return (
-    <Label>
-      Find contacts by name
-      <FindInput type="text" name="filter" onChange={filterContact} />
-    </Label>
+    <TextField
+      margin="normal"
+      fullWidth
+      id="name"
+      label="Username"
+      name="name"
+      autoFocus
+      onChange={onWrite}
+      placeholder="Search"
+    />
   );
 };
 
