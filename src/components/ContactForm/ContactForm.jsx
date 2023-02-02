@@ -1,84 +1,105 @@
-//Redux-toolkit
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contacts/operations';
 import { getContacts } from 'redux/contacts/selectors';
-// import { addContact } from '../../redux/contacts/contactsSlice';
-import { addContact } from '../../redux/contacts/operations';
-//Formik
-import { Formik } from 'formik';
-//@mui/material/Button
-import Button from '@mui/material/Button';
-//yup
-import * as yup from 'yup';
-import { FormContact, Label, Input, ErrorText } from './ContactForm.styled.js';
+import { Toaster, toast } from 'react-hot-toast';
+import { Button, TextField, Box } from '@mui/material';
 
-const nameValidate =
-  "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
-const phoneValidate = RegExp(
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{1,3}\\)[ \\-]*)|([0-9]{1,4})[ \\-]*)*?[0-9]{1,4}?[ \\-]*[0-9]{1,9}?$/
-);
+export const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .required()
-    .min(3)
-    .max(16)
-    .matches(
-      nameValidate,
-      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-    ),
-  phone: yup
-    .string()
-    .required()
-    .min(6)
-    .max(10)
-    .matches(
-      phoneValidate,
-      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-    ),
-});
-
-const initialValues = {
-  name: '',
-  phone: '',
-};
-
-const ContactForm = () => {
   const contacts = useSelector(getContacts);
-
   const dispatch = useDispatch();
 
-  const handleSubmit = (values, { resetForm }) => {
-    if (contacts.find(contact => contact.name === values.name)) {
-      alert(`${values.name} is already in contacts`);
-      return;
-    }
-    dispatch(addContact(values));
+  const onChange = e => {
+    const { name, value } = e.currentTarget;
 
-    resetForm();
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
+
+  const onFormSubmit = e => {
+    e.preventDefault();
+    const contact = {
+      name,
+      number,
+    };
+
+    const checkContacts = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    checkContacts
+      ? toast.error(`${name} is already in contacts.`)
+      : dispatch(addContact(contact));
+
+    reset();
+  };
+
+  const reset = () => {
+    setName('');
+    setNumber('');
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={schema}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
-      <FormContact autoComplete="off">
-        <Label>
-          Name
-          <Input type="text" name="name"></Input>
-          <ErrorText component="div" name="name" />
-        </Label>
-        <Label>
-          Number
-          <Input type="tel" name="phone"></Input>
-          <ErrorText component="div" name="phone" />
-        </Label>
-        <Button variant="contained" type="submit">
+      <form onSubmit={onFormSubmit}>
+        <TextField
+          value={name}
+          onChange={onChange}
+          type="text"
+          name="name"
+          label="Name"
+          id="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+          fullWidth
+          margin="normal"
+        />
+
+        <TextField
+          value={number}
+          onChange={onChange}
+          type="tel"
+          name="number"
+          label="Number"
+          id="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+          fullWidth
+          margin="normal"
+        />
+        <Toaster position="top-right" reverseOrder={false} />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
           Add contact
         </Button>
-      </FormContact>
-    </Formik>
+      </form>
+    </Box>
   );
 };
 
