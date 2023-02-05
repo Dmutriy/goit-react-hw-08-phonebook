@@ -1,16 +1,17 @@
-import Section from '../components/Section';
-import Filter from '../components/Filter';
-import ContactsList from '../components/ContactList';
-import ContactForm from '../components/ContactForm';
-import { Wrap } from '../components/App.styled';
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { CircularProgress } from '@mui/material';
 import {
   getError,
   getIsLoading,
   getContacts,
 } from '../redux/contacts/selectors';
+
+import Section from '../components/Section';
+import Filter from '../components/Filter';
+import ContactsList from '../components/ContactList';
+import ContactForm from '../components/ContactForm';
+import { Wrap } from '../components/App.styled';
 
 import { getFilter } from '../redux/filters/selectors';
 import { fetchContacts } from 'redux/contacts/operations';
@@ -31,7 +32,8 @@ export default function App() {
       <ContactForm />
       <Section>
         <Filter />
-        {isLoading && !error && <b>Loading...</b>}
+        {/* {isLoading && !error && <b>Loading...</b>} */}
+        {isLoading && !error && <CircularProgress />}
         {contacts.length > 0 && <ContactsList contacts={filter} />}
       </Section>
     </Wrap>
