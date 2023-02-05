@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Modal } from '@mui/material';
 import {
   getError,
   getIsLoading,
@@ -33,7 +33,11 @@ export default function App() {
       <Section>
         <Filter />
         {/* {isLoading && !error && <b>Loading...</b>} */}
-        {isLoading && !error && <CircularProgress />}
+        {isLoading && !error && (
+          <Modal>
+            <CircularProgress />
+          </Modal>
+        )}
         {contacts.length > 0 && <ContactsList contacts={filter} />}
       </Section>
     </Wrap>
