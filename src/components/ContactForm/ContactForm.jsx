@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/operations';
 import { getContacts } from 'redux/contacts/selectors';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { Button, TextField, Box } from '@mui/material';
 
 export const ContactForm = () => {
@@ -88,7 +88,6 @@ export const ContactForm = () => {
           fullWidth
           margin="normal"
         />
-        <Toaster position="top-right" reverseOrder={false} />
 
         <Button
           type="submit"
