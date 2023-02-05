@@ -10,6 +10,7 @@ export const ContactForm = () => {
   const [number, setNumber] = useState('');
 
   const contacts = useSelector(getContacts);
+
   const dispatch = useDispatch();
 
   const onChange = e => {
