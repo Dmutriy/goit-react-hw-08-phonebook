@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const List = styled.ul`
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
 `;
 
