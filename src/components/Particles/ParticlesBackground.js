@@ -6,7 +6,6 @@ import particlesConfig from './ParticlesConfig';
 
 const ParticlesBackground = () => {
   const particlesInit = useCallback(async engine => {
-    console.log(engine);
     await loadFull(engine);
   }, []);
   return (
