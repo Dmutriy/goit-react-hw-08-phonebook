@@ -6,6 +6,7 @@ import { PrivateRoute } from '../components/PrivateRoute';
 import { RestrictedRoute } from '../components/RestrictedRoute';
 import { refreshUser } from 'redux/auth/operations';
 import { useAuth } from '../hooks';
+import { CircularProgress } from '@mui/material';
 
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
@@ -21,7 +22,8 @@ export const App = () => {
   }, [dispatch]);
 
   return isRefreshing ? (
-    <b>Refreshing user...</b>
+    // <b>Refreshing user...</b>
+    <CircularProgress />
   ) : (
     <Routes>
       <Route path="/" element={<Layout />}>
